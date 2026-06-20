@@ -5,7 +5,7 @@ Credit scorecards quantify borrowers' willingness and ability to repay, making t
 - [EDA Insight](@EDAInsight)
 
 # Data Introduction
-The data for this project was collected from Kaggle. The original dataset included 45,000 observations and 13 variable. Applied loan amount and interest rate were discarded before doing any analysis because they are terms of a loan, not risk indicators associated with borrower's willingness and ability to pay. Also, typically applied loan amount has a linear relationship with income, which may introduce multicollinearity in the model. 
+The data for this project was collected from Kaggle. The original dataset included 45,000 observations and 13 variables. Applied loan amount and interest rate were discarded before doing any analysis because they are terms of a loan, not risk indicators associated with borrower's willingness and ability to pay. Also, typically applied loan amount has a linear relationship with income, which may introduce multicollinearity in the model. 
 Institutional lenders typically establish lending policies that restrict credit facilities to borrowers aged 65 and above, or those approaching or in retirement, due to heightened risk of income reduction or loss of stable income sources. Therefore, we have excluded borrowers aged above 70 years and work experience above 45 years. Exclusion of such borrowers resulted a dataset of 44,975 observations. 
 
 The rest of variables are as follows:
@@ -19,7 +19,7 @@ The rest of variables are as follows:
 - Loan to Income Ratio
 - Credit History Length
 - Previous Loan Defaults on File
-- Loan Status-Target Variable (Accepted/Rejected) 
+- __Loan Status__-Target Variable (Accepted/Rejected) 
 
 # EDA Insight
 - __Class Imbalance__: Target variable is imbalanced with 77.8% rejected loans and 22.2% approved loans in the dataset, with no missing values.  
@@ -32,5 +32,6 @@ The rest of variables are as follows:
     <img src="https://github.com/SyedTahfim/Credit-Scorecard/blob/main/pair_plot.png" width="60%" alt="Image 1 Description" style="float: left; margin-right: 2%;">
  </p>
 
+## Rest is Work in Progress
 
 

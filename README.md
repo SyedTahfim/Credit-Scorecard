@@ -28,5 +28,9 @@ The rest of variables are as follows:
 - __Categorical Significance__: Chi-square tests reveal three statistically significant categorical variables; encompassing previous loan defaults, home ownership status, and loan intent; education and gender show no association with loan approval. 
 - __Variable Selection Implication__: Education and gender flagged for further WoE/IV analysis before potential exclusion; previous loan defaults emerges as the strongest univariate categorical predictor, suggesting high predictive value for PD modeling.
 
+ <p align="center">
+    <img src="https://github.com/SyedTahfim/Credit-Scorecard/blob/main/pair_plot.png" width="60%" alt="Image 1 Description" style="float: left; margin-right: 2%;">
+ </p>
+
 
 

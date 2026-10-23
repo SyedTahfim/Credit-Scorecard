@@ -1,0 +1,139 @@
+version: "2026-10"
+
+# hard: blocks scoring with an error. soft: shows a warning, scoring continues.
+# soft_min / soft_max: fill from the training data range (null = no warning).
+# Limits marked "confirm" are placeholders to check against the training data.
+
+inputs:
+  grade:
+    label: Grade
+    type: categorical
+    required: true
+
+  term:
+    label: Term
+    type: categorical
+    required: true
+
+  purpose:
+    label: Loan purpose
+    type: categorical
+    required: true
+
+  verification_status:
+    label: Verification status
+    type: categorical
+    required: true
+
+  initial_list_status:
+    label: Initial list status
+    type: categorical
+    required: true
+
+  loan_amnt:
+    label: Loan amount
+    type: numeric
+    integer: false
+    required: true
+    min: 500          # confirm
+    max: 40000        # confirm
+    soft_min: null
+    soft_max: null
+
+  annual_inc:
+    label: Annual income
+    type: numeric
+    integer: false
+    required: true
+    min: 1            # must be > 0, used as the divisor for loan_to_annl_inc
+    max: 10000000     # confirm
+    soft_min: null
+    soft_max: null
+
+  tot_coll_amt:
+    label: Total collection amount
+    type: numeric
+    integer: false
+    required: false
+    allow_missing: true   # scored with the Missing bin
+    min: 0
+    max: 10000000     # confirm
+    soft_min: null
+    soft_max: null
+
+  total_rec_int:
+    label: Total interest received
+    type: numeric
+    integer: false
+    required: true
+    min: 0
+    max: 100000       # confirm
+    soft_min: null
+    soft_max: null
+
+  inq_last_6mths:
+    label: Inquiries in last 6 months
+    type: numeric
+    integer: true
+    required: true
+    min: 0
+    max: 33           # confirm
+    soft_min: null
+    soft_max: null
+
+  credit_history_length:
+    label: Credit history length (months)   # confirm unit
+    type: numeric
+    integer: true
+    required: true
+    min: 0
+    max: 900          # confirm
+    soft_min: null
+    soft_max: null
+
+  revol_util:
+    label: Revolving utilization (%)
+    type: numeric
+    integer: false
+    required: false
+    allow_missing: true   # scored with the Missing bin
+    min: 0
+    max: 200          # confirm
+    soft_min: null
+    soft_max: null
+
+  dti:
+    label: Debt-to-income ratio
+    type: numeric
+    integer: false
+    required: true
+    min: 0
+    max: 100          # confirm
+    soft_min: null
+    soft_max: null
+
+# Model variables computed from the inputs above.
+derived:
+  loan_to_annl_inc:
+    formula: loan_amnt / annual_inc
+    inputs: [loan_amnt, annual_inc]
+
+messages:
+  required: "{label} is required."
+  below_min: "{label} cannot be less than {min}."
+  above_max: "{label} cannot be more than {max}."
+  not_integer: "{label} must be a whole number."
+  invalid_value: "{label} has an invalid value."
+  outside_training_range: "{label} is outside the range the model was built on."
+
+# Risk categories. A score gets the first band whose "below" it is under;
+# "below: null" is the top band. Cutoffs are placeholders based on the
+# bad-rate-by-score chart, so adjust them to your own policy.
+risk:
+  default_flag_below: 610     # score below this is flagged as potential default
+  bands:
+    - {name: Very high risk, below: 570}
+    - {name: High risk,      below: 590}
+    - {name: Moderate risk,  below: 610}
+    - {name: Low risk,       below: 640}
+    - {name: Very low risk,  below: null}

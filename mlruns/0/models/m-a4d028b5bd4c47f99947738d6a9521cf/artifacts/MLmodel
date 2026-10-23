@@ -1,0 +1,23 @@
+artifact_path: file:E:/credit_scorecard/mlruns/0/models/m-a4d028b5bd4c47f99947738d6a9521cf/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.12.7
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.1
+    skops_trusted_types: null
+mlflow_version: 3.17.1
+model_id: m-a4d028b5bd4c47f99947738d6a9521cf
+model_size_bytes: 12956
+model_uuid: m-a4d028b5bd4c47f99947738d6a9521cf
+prompts: null
+run_id: a25c2b5a544d4f4eaeee8ccde293f744
+utc_time_created: '2026-10-23 09:52:44.225655'

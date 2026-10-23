@@ -1,0 +1,7 @@
+{
+  "penalty": "l2",
+  "solver": "saga",
+  "random_state": 42,
+  "C": 9.980693253863745,
+  "max_iter": 5000
+}

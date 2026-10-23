@@ -1,0 +1,45 @@
+# Data Paths - 
+data:
+  data_path: "E:\\Credit_Scorecard\\data"
+  model_path: "E:\\credit_scorecard\\models"
+  raw_data_file: "loan.csv"
+  raw_train_data: "train_raw.csv"
+  raw_test_data: "test_raw.csv"
+  train_prcd: "train_processed.csv"
+  test_prcd: "test_processed.csv"
+  target_variable: "default_flag"
+  "test_woe_path": "E:\\Credit_Scorecard\\results\\test_woe.csv"
+
+# Data Cleaning - 
+prep:
+  data_format: "%b-%Y"
+  date_cap: 2010
+  obs_date: "2016-01-01"
+  appl_cols: ['annual_inc_joint','dti_joint','verification_status_joint','application_type']
+  date_cols: ['issue_d','earliest_cr_line','next_pymnt_d']
+  cols_to_fill: ['mths_since_last_delinq', 'mths_since_last_record', 'mths_since_last_major_derog']
+  drop_columns: ['id', 'member_id','installment','sub_grade','emp_title','pymnt_plan', 'url','annual_inc',
+                  'desc','title', 'zip_code', 'addr_state','policy_code','acc_now_delinq','issue_d','earliest_cr_line',
+                  'last_credit_pull_d','last_pymnt_d','obs_d','next_pymnt_d','MOD','mnths_loan_sanct','loan_status',
+                  'loan_amnt', 'funded_amnt', 'funded_amnt_inv','total_rec_prncp','out_prncp','last_pymnt_amnt',
+                  'out_prncp_inv','total_pymnt','total_pymnt_inv','recoveries','collection_recovery_fee']
+  keep_columns: []
+  
+# Train Test Split -
+train_test_split:
+  test_size: 0.3
+  random_state: 42
+  stratify_on: "loan_status"
+
+woe:
+  target: "default_flag"
+  iv_threshold: 0.015
+  solver: "mip"
+
+corr_vif:
+  corr_threshold: 0.7
+  vif_threshold: 5.0
+
+model:
+  threshold: 0.10
+

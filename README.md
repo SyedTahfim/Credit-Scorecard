@@ -1,18 +1,8 @@
-# Behavioral Credit Scorecard
-
-An end-to-end pipeline that builds a behavioral credit scorecard on LendingClub data, from raw data to a deployed Streamlit app.
-
-**Live app:** `<add Streamlit app link here>`
-
-## Background
-
-A behavioral scorecard uses the repayment and credit behavior of existing borrowers to estimate their likelihood of default.
-
-Lenders use it after disbursement to monitor the portfolio, spot deteriorating accounts early, and support collections and limit decisions.
-
 ## Objective
+This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development, performance evaluation, and deployment through a digital dashboard. 
 
-Build an interpretable, stable scorecard that ranks existing borrowers by default risk and flags those below a score cutoff as potential defaults.
+# Behavioral Credit Scorecard
+A behavioral credit scorecard is a credit risk model for prediction of probability of default of existing borrowers. Financial institutions develop behavioral scorecards typically for 6/12 months mature loans. As input, a behavioral credit risk model takes borrower's personal, financial, credit bureau and existing loan repayment data. Financial institutions use it after disbursement to monitor the portfolio, spot deteriorating accounts early, and support collections and limit decisions.
 
 ## Data Description
 

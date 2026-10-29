@@ -1,4 +1,4 @@
-## Objective
+# Objective
 This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development, performance evaluation, and deployment through a digital dashboard. 
 
 # Behavioral Credit Scorecard

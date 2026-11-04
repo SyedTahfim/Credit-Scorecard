@@ -1,5 +1,5 @@
 # Objective
-This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development, performance evaluation, and deployment through a digital dashboard. 
+This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development and evaluation, performance evaluation, and serving the results through a digital dashboard.
 
 # Behavioral Credit Scorecard
 A behavioral credit scorecard is a credit risk model that predicts the probability of default of existing borrowers. Financial institutions develop behavioral scorecards for 6/12 months matured loans. The probability of default is predicted based on borrower's personal, financial, credit bureau and existing loan repayment data. Financial institutions use it after disbursement to monitor the portfolio, spot deteriorating accounts early, and support loan recovery.

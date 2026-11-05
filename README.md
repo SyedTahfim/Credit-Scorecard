@@ -45,48 +45,38 @@ The behavioral scorecard was developed on LendingClub data sourced from kaggle.
 | revol_util | Revolving credit utilization (%) | Float | Higher is worse |
 | dti | Debt-to-income ratio | Float | Higher is worse |
 
-## Scorecard Development Process
-<p align="center">
-  <img src="images/scorecard-development-process.png"
-       alt="Scorecard Development Process"
-       width="100%">
+## <img src="https://cdn-icons-png.flaticon.com/128/6062/6062646.png" width="20" /> **Scorecard Development Process**
+<p align="center"> 
+  <img src="https://github.com/SyedTahfim/Credit-Scorecard/blob/main/images/Credit%20Scorecard%20Development%20Process.png"
+       width="60%" alt="Scorecard Development Process" style="float: left; margin-right: 2%;">
 </p>
 
-1. **Split:** the data is split into train and test sets before any processing to prevent leakage.
-2. **Prepare:** loans are filtered, the default flag is defined, and conflicting rows are removed.
-3. **Bin and transform:** each variable is optimally binned with `optbinning` and replaced by its Weight of Evidence (WoE).
-4. **Select variables:** variables are filtered by IV, correlation, VIF, and stability across folds.
-5. **Model:** a logistic regression is trained on the WoE values and tracked in MLflow.
-6. **Scale:** model output is converted to scorecard points, and risk bands and a default cutoff are applied.
-7. **Deploy:** the scorecard is served through a Streamlit app.
+### <img src="https://cdn-icons-png.flaticon.com/128/14380/14380743.png" width="20" /> **Feature Selection Process**
 
-## Feature Selection Process
+1. **Information Value (IV):** Variables with IV below the configured threshold are removed.
+2. **Correlation and VIF:** From each pair of highly correlated variables, variable with  higher VIF was dropped.
+3. **Stability test:** A stratified 10-fold cross-validation was applied to test the stability of variables and model.  
+4. **Stability criteria:** A variable is considered stable if the coefficient of variation of coefficients was below 0.10 and sign of coefficients was consistent in at least 90% of folds.
+5. **Output:** The stable variables list, fitted WoE transformer and WoE table were saved for later use.
 
-1. **Information Value (IV):** variables with IV below the configured threshold are removed.
-2. **Correlation and VIF:** among pairs correlated above the threshold, the variable with the higher VIF is dropped, repeating until no pair remains.
-3. **Stability test:** a stratified 10-fold cross-validation refits the binning and model on each fold's training rows only.
-4. **Stability criteria:** a variable is kept if its coefficient CV is below 0.10 and its coefficient sign is consistent in at least 90% of folds.
-5. **Output:** the stable variable list, fitted WoE transformer, and WoE table are saved to the data folder.
-
-Thresholds are set in `config.py`.
-
-## Model Performance
+### <img src="https://cdn-icons-png.flaticon.com/128/9732/9732828.png" width="20" /> **Model Performance**
 
 | Dataset | AUC | Gini | KS |
 |---|---|---|---|
 | Train | 72.62% | 45.24% | 33.09% |
 | Test | 72.59% | 45.18% | 33.25% |
 
+### <img src="https://cdn-icons-png.flaticon.com/128/17433/17433981.png" width="20" /> **Scoring Process**
 
-## Scoring Process
+The logistic regression gives us probability of default, which is a decimal value between 0 and 1. This probability of default needs to transformed into something interpretable and presentable to serve the business requirements. 
 
-The logistic regression output is converted into a score where a higher score means lower default risk.
+**Model (log odds of default)** 
 
-**Model (log odds of default)**
+Coefficient of variation: $CV = \frac{\sigma}{\mu}$
 
-```
-ln(odds) = β0 + Σ βj × WoEj
-```
+$$
+\ln\left(\frac{p}{1-p}\right) = \beta_0 + \sum_{j=1}^{n} \beta_j \cdot \text{WoE}_j
+$$
 
 **Scaling**
 

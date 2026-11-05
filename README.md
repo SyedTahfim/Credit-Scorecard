@@ -46,18 +46,11 @@ The behavioral scorecard was developed on LendingClub data sourced from kaggle.
 | dti | Debt-to-income ratio | Float | Higher is worse |
 
 ## Scorecard Development Process
-
-```mermaid
-flowchart LR
-    A[Raw LendingClub data] --> B[Stratified train/test split]
-    B --> C[Data preparation and default flag]
-    C --> D[Optimal binning, IV and WoE]
-    D --> E[Correlation and VIF filter]
-    E --> F[Stability test, 10-fold CV]
-    F --> G[Logistic regression]
-    G --> H[Score scaling and risk bands]
-    H --> I[Streamlit app]
-```
+<p align="center">
+  <img src="images/scorecard-development-process.png"
+       alt="Scorecard Development Process"
+       width="100%">
+</p>
 
 1. **Split:** the data is split into train and test sets before any processing to prevent leakage.
 2. **Prepare:** loans are filtered, the default flag is defined, and conflicting rows are removed.

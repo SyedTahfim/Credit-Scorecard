@@ -1,5 +1,5 @@
 ## <img src="https://cdn-icons-png.flaticon.com/128/3989/3989573.png" width="20" /> 1. Motivation
-This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development and evaluation, performance evaluation, and serving the results through a digital dashboard. A behavioral credit scorecard is a credit risk model that evaluates existing borrowers based on their historical and recent repayment and account activity to estimate their probability of default over a predefined future period.
+This repository exhibits an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development and evaluation, performance evaluation, and serving the results through a digital dashboard. A behavioral credit scorecard is a credit risk model that evaluates existing borrowers based on their historical and recent repayment and account activity to estimate their probability of default over a predefined future period.
 
 ## <img src="https://cdn-icons-png.flaticon.com/128/7032/7032407.png" width="20" /> 2. Data Description
 The behavioral scorecard was developed on LendingClub data sourced from kaggle. 
@@ -66,38 +66,69 @@ The behavioral scorecard was developed on LendingClub data sourced from kaggle.
 | Train | 72.62% | 45.24% | 33.09% |
 | Test | 72.59% | 45.18% | 33.25% |
 
-### <img src="https://cdn-icons-png.flaticon.com/128/17433/17433981.png" width="20" /> **Scoring Process**
+## <img src="https://cdn-icons-png.flaticon.com/128/17433/17433981.png" width="20" /> **Score Scaling**
 
-The logistic regression gives us probability of default, which is a decimal value between 0 and 1. This probability of default needs to transformed into something interpretable and presentable to serve the business requirements. 
-
-**Model (log odds of default)** 
-
-Coefficient of variation: $CV = \frac{\sigma}{\mu}$
+The model outputs log-odds, which are not intuitive for business users. Scaling converts them into a score on a fixed scale where a higher score means lower risk.
 
 $$
 \ln\left(\frac{p}{1-p}\right) = \beta_0 + \sum_{j=1}^{n} \beta_j \cdot \text{WoE}_j
 $$
 
-**Scaling**
+### Scaling parameters
 
+| Parameter | Value | Meaning |
+|---|---|---|
+| Base score | 550 | An arbitrary reference score assigned to the base-odds |
+| Base odds (good:bad) | 9.73 | Good customers per bad customer at the base score |
+| PDO | 20 | The number of points by which the credit score increases when the Good:Bad odds double |
+
+### Step 1: Factor and Offset
+
+The Factor sets how many points one unit of log-odds is worth.
+
+```math
+\text{Factor} = \frac{\text{PDO}}{\ln(2)} = \frac{20}{0.6931} \approx 28.85
 ```
-Factor = PDO / ln(2)
-Offset = Base Score - Factor × ln(Base Odds)
-Bin Points = WoEj * Coefficient + β0/No. of Features - Factor
-Score = round( Offset + Σ Points of each variable's bin )
+
+The Offset shifts the scale so that the base odds receive the base score.
+
+```math
+\text{Offset} = \text{Base Score} - \text{Factor} \times \ln(\text{Base Odds}) = 550 - 28.85 \times \ln(9.73) \approx 484.35
 ```
 
-| Parameter | Value |
-|---|---|
-| Base score | 550 |
-| Base odds (bad:good) | 9.73 |
-| PDO (points to double the odds) | 20 |
+### Step 2: Points per bin
 
-1. Each variable value is mapped to its bin's WoE.
-2. The WoE is multiplied by the model coefficient and the Factor to give the variable's points.
-3. Points are summed with the offset, which appears as the "Offset" row in the app's points breakdown.
-4. The total is rounded to the nearest integer to give the final score.
+Each variable is binned, and each bin has a WoE value. The points for a bin are:
 
+```math
+\text{Points}_{ij} = -\text{Factor} \times \left(\text{WoE}_{ij} \cdot \beta_j + \frac{\beta_0}{n}\right)
+```
+
+Where:
+- $\text{WoE}_{ij}$ is the WoE of the bin that customer value $i$ falls into for variable $j$.
+- $\beta_j$ is the model coefficient of variable $j$.
+- $\beta_0$ is the model intercept, split equally across the $n$ variables so that each variable carries a share of it.
+- The negative sign converts the model's log-odds of default into log-odds of good, so safer bins earn more points.
+
+### Step 3: Final score
+
+```math
+\text{Score} = \text{round}\left(\text{Offset} + \sum_{j=1}^{n} \text{Points}_{j}\right)
+```
+
+### Calculation flow
+
+1. Map each variable value to its bin and the bin's WoE.
+2. Compute the bin's points from the WoE, coefficient, intercept share, and Factor.
+3. Sum the points across all variables.
+4. Add the Offset, which appears as the "Offset" row in the app's points breakdown.
+5. Round to the nearest integer to obtain the final score.
+
+### Interpretation
+
+- A score of 550 corresponds to good:bad odds of 9.73.
+- Every +20 points doubles the good:bad odds (about 19.46 at 570, 38.92 at 590).
+- Every −20 points halves them.
 ## Score Bands and Cutoff
 
 Scores range from 433 to 640 and are grouped into 10-point bands, with the lowest band widened to 433-480.

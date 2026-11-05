@@ -1,7 +1,7 @@
-# Motivation
+## <img src="https://cdn-icons-png.flaticon.com/128/3989/3989573.png" width="20" /> 1. Motivation
 This repository demonstrates an end-to-end behavioral credit scorecard development process, covering data wrangling, feature engineering, variable selection, model development and evaluation, performance evaluation, and serving the results through a digital dashboard. A behavioral credit scorecard is a credit risk model that evaluates existing borrowers based on their historical and recent repayment and account activity to estimate their probability of default over a predefined future period.
 
-## Data Description
+## <img src="https://cdn-icons-png.flaticon.com/128/7032/7032407.png" width="20" /> 2. Data Description
 The behavioral scorecard was developed on LendingClub data sourced from kaggle. 
 
 | Item | Detail |
@@ -12,13 +12,13 @@ The behavioral scorecard was developed on LendingClub data sourced from kaggle.
 | Target Variable | `default_flag` (1 = default, 0 = non-default) |
 | Split | Stratified train/test split on the target, done before any processing |
 
-**Default definition**
+### <img src="https://cdn-icons-png.flaticon.com/128/10055/10055651.png" width="20" /> **Default definition**
 
 - `default_flag = 1` for loan status Charged Off, Default, or Does not meet the credit policy (Charged Off).
 - `default_flag = 1` for loan status Late (31-120 days) with 4 or more months overdue.
 - All other loans are `0`.
 
-**Data cleaning and derived fields**
+### <img src="https://cdn-icons-png.flaticon.com/128/2954/2954919.png" width="20" /> **Data cleaning and derived fields**
 
 - Columns with more than 90% missing values are dropped.
 - Missing values in delinquency and derogatory fields are filled with 0, as they indicate no record.

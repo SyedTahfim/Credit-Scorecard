@@ -68,10 +68,15 @@ The behavioral scorecard was developed on LendingClub data sourced from kaggle.
 
 ## <img src="https://cdn-icons-png.flaticon.com/128/17433/17433981.png" width="20" /> **Score Scaling**
 
-The model outputs log-odds, which are not intuitive for business users. Scaling converts them into a score on a fixed scale where a higher score means lower risk.
+The logistic regression model outputs the log-odds, which are then transformed into probabilities using the logit function. The equation for logistic regression is as following: 
 
 $$
-\ln\left(\frac{p}{1-p}\right) = \beta_0 + \sum_{j=1}^{n} \beta_j \cdot \text{WoE}_j
+z = \beta_0 + \sum_{j=1}^{n} \beta_j \cdot \text{WoE}_j
+$$
+
+The logit function: 
+$$
+P (Default = 1) = \frac{1}{e^{-z}}
 $$
 
 ### Scaling parameters

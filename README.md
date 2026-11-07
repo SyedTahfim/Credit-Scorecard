@@ -75,9 +75,12 @@ z = \beta_0 + \sum_{j=1}^{n} \beta_j \cdot \text{WoE}_j
 $$
 
 The logit function: 
+
 $$
-P (Default = 1) = \frac{1}{e^{-z}}
+P(\text{Default}=1)=\frac{1}{1+e^{-z}}
 $$
+
+The log-odds or probabilities are not easily interpretable for business purposes. That's why they need to scaled to quantify the credit worthiness of borrowers. 
 
 ### Scaling parameters
 
@@ -169,10 +172,11 @@ The bad rate falls steadily as the score rises, which confirms the scorecard ran
 3. Bands up to 540-550 (11.2%) have a bad rate above the population rate, and bands from 550-560 (7.9%) upward are below it.
 4. The cutoff was set at 550, so scores below 550 are flagged as potential default.
 
-## Takeaways
+## Key Takeaways
 
-- Splitting before binning and fitting each cross-validation fold's WoE on its own training rows keeps validation results free of leakage.
-- Combining IV, correlation, VIF, and coefficient stability yields a compact scorecard whose variable effects are consistent across samples.
-- WoE binning keeps every variable's contribution to the score transparent, which supports explainability and review.
-- The default definition and observation window drive the results, so any change to them requires re-running the full pipeline.
-- `TBD: one-line summary of discriminatory power and stability.`
+- An end-to-end and step-by-step credit scorecard development process.
+- Tran and test split must be done before any data wrangling to avoid leakage 
+- How to identify observations that break business logic
+- Feature selection process combining IV, correlation, and VIF 
+- Feature and model stability test
+- How to transform log-odds/probabilities into a scorecard

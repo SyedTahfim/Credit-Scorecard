@@ -137,7 +137,8 @@ Where:
 - A score of 550 corresponds to good:bad odds of 9.73.
 - Every +20 points doubles the good:bad odds (about 19.46 at 570, 38.92 at 590).
 - Every −20 points halves them.
-## Score Bands and Cutoff
+
+## <img src="https://cdn-icons-png.flaticon.com/128/15871/15871217.png" width="20"/> **Score Bands and Cutoff**
 
 Scores range from 433 to 640 and are grouped into 10-point bands, with the lowest band widened to 433-480.
 
@@ -172,7 +173,7 @@ The bad rate falls steadily as the score rises, which confirms the scorecard ran
 3. Bands up to 540-550 (11.2%) have a bad rate above the population rate, and bands from 550-560 (7.9%) upward are below it.
 4. The cutoff was set at 550, so scores below 550 are flagged as potential default.
 
-## Key Takeaways
+## <img src="https://cdn-icons-png.flaticon.com/128/12775/12775154.png" width="20" /> **Key Takeaways**
 
 - An end-to-end and step-by-step credit scorecard development process.
 - Tran and test split must be done before any data wrangling to avoid leakage 
